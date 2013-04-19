@@ -37,9 +37,9 @@ void MainWindow::visionButtonMethod() {
 	static bool running = false;
 
 	if (!running)
-		Vision::startUpdate();
+		Vision::start();
 	else
-		Vision::stopUpdate();
+		Vision::stop();
 	running = !running;
 }
 

@@ -37,7 +37,7 @@ class Vision: public QObject {
 		 * se preocupar com isso.
 		 *   Enquanto este método não for chamado, a atualização não vai acontecer.
 		 */
-		static void startUpdate();
+		static void start();
 
 		/**
 		 *   Este método para o módulo responsável por atualizar os atributos
@@ -46,7 +46,7 @@ class Vision: public QObject {
 		 *   Desencorajamos de chamar esse método a qualquer momento, pois pode gerar
 		 * atraso nos próximos pacotes recebidos pelo ssl-vision.
 		 */
-		static void stopUpdate();
+		static void stop();
 
 		/**
 		 *   Por padrão o módulo de atualização executa a cada 10 milisegundos, porém
@@ -54,70 +54,27 @@ class Vision: public QObject {
 		 */
 		static void changeInterval(int milSeconds);
 
+	private slots:
+
+		/**
+		 *   Aqui é que as coisas acontecem, visionLoop() é o cara responsável por realmente pegar
+		 * os pacotes, processar, e atualizar os atributos da classe Vision. O resto são só camadas
+		 * superficias para controle ou deixar o código bonito e simples.
+		 */
+		void visionLoop();
+
 	private:
 
-
-		static Update update;
+		static Vision vision;
+		QTimer timer;
 
 		/*   Este métodos estão privados para evitar que alguem instancie um objeto do
 		 * tipo Vision.*/
 		Vision();
-		virtual ~Vision(){
-		}
+		virtual ~Vision();
 		Vision(Vision &);
 		Vision & operator=(const Vision &);
 
-};
-
-class Update: public QObject {
-	Q_OBJECT
-	private:
-		friend class Vision;
-
-		int milSeconds;
-		QTimer timer;
-
-		Update() :
-				milSeconds(1), timer(NULL) {
-			connect(&timer, SIGNAL(timeout()), this, SLOT(updateMethod()));
-		}
-		~Update() {
-			disconnect(&timer, SIGNAL(timeout()), this, SLOT(updateMethod()));
-		}
-
-		/**
-		 *   Inicia o timer responsável por executar o método que pega os pacotes do
-		 * ssl-vision pela rede e atualizar os atributos da classe Vision.
-		 */
-		void start() {
-			timer.start(milSeconds);
-		}
-
-		/**
-		 *   Para o timer, ou seja, para de atualizar os atributos da classe Vision.
-		 */
-		void stop() {
-			timer.stop();
-		}
-
-		/**
-		 *   Muda a quantidade de tempo que o método responsável pelo update espera para
-		 * executar de novo. Após a chamada desse método, a atualização ocorrerá a cada
-		 * milSecond milisegundos.
-		 */
-		void changeInterval(int milSeconds) {
-			timer.setInterval(milSeconds);
-			this->milSeconds = milSeconds;
-		}
-
-	private slots:
-
-		/**
-		 *   Aqui é que as coisas acontecem, updateMethod é o cara responsável por realmente pegar
-		 * os pacotes, processar, e atualizar os atributos da classe Vision. O resto são só camadas
-		 * superficias para controle ou deixar o código bonito e simples.
-		 */
-		void updateMethod();
 };
 
 #endif /* VISION_H_ */

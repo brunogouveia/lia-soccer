@@ -13,21 +13,30 @@ List<RobotInfo> Vision::opponents;
 FIeldInfo Vision::field;
 BallInfo Vision::ball;
 
-Update Vision::update;
+Vision Vision::vision;
 
-void Vision::startUpdate() {
-	update.start();
+Vision::Vision() :
+		timer(this) {
+	connect(&timer, SIGNAL(timeout()), this, SLOT(visionLoop()));
 }
 
-void Vision::stopUpdate() {
-	update.stop();
+Vision::~Vision() {
+	disconnect(&timer, SIGNAL(timeout()), this, SLOT(visionLoop()));
+}
+
+void Vision::start() {
+	vision.timer.start();
+}
+
+void Vision::stop() {
+	vision.timer.stop();
 }
 
 void Vision::changeInterval(int milSeconds) {
-	update.changeInterval(milSeconds);
+	vision.timer.setInterval(milSeconds);
 }
 
-void Update::updateMethod() {
-	printf("Update::updateMethodExecutando\n");
+void Vision::visionLoop() {
+	printf("Vision::visionLoop\n");
 	QThread::yieldCurrentThread();
 }

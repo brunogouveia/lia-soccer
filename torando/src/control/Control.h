@@ -72,12 +72,11 @@ class Control: public QObject {
 		static Control control;
 		static QThread thread;
 
-		static bool running;;
+		static bool running;
 
 		/*Parte obscura da classe Controle, se você não é programador, vaza daqui!*/
 	private:
-		/*   Este métodos estão como privado para evitar que alguem acidentalmente
-		 * ou conscientemente instancie  um objeto do tipo Control.*/
+
 		Control();
 		virtual ~Control();
 
