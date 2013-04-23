@@ -12,6 +12,10 @@ class RobotInfo {
 	public:
 		RobotInfo();
 		virtual ~RobotInfo();
+
+		float x;
+		float y;
+		float orientation;
 };
 
 #endif /* ROBOTINFO_H_ */

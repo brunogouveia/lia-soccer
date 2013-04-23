@@ -12,6 +12,10 @@ class BallInfo {
 	public:
 		BallInfo();
 		virtual ~BallInfo();
+
+		float x;
+		float y;
+		float x;
 };
 
 #endif /* BALLINFO_H_ */
