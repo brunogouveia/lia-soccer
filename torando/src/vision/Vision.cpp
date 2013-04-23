@@ -7,7 +7,10 @@
 
 #include "Vision.h"
 
+#include <iostream>
+
 #include "robocup_ssl_client.h"
+#include "robocup_ssl_referee.h"
 
 #include "messages_robocup_ssl_detection.pb.h"
 #include "messages_robocup_ssl_geometry.pb.h"
@@ -45,7 +48,18 @@ void Vision::changeInterval(int milSeconds) {
 void Vision::visionLoop() {
 	printf("Vision::visionLoop\n");
 
-	RoboCupSSLClient client;
+	RoboCupSSLReferee referee;
+	referee.open();
+	while (true) {
+		std::cout << "teste" << endl;
+		SSL_Referee frame;
+		if (referee.receive(frame))
+			std::cout << "TS=" << frame.packet_timestamp() << ", stage=" << frame.stage() << ", stage_time_left=" << frame.stage_time_left() << ", command=" << frame.command() << ", yscore=" << frame.yellow().score() << ", bscore=" << frame.blue().score() << '\n';
+		else
+			std::cout << "fail" << endl;
+	}
+
+	/*RoboCupSSLClient client;
 	client.open(true);
 	SSL_WrapperPacket packet;
 
@@ -53,6 +67,7 @@ void Vision::visionLoop() {
 		if (client.receive(packet)) {
 			printf("-----Received Wrapper Packet---------------------------------------------\n");
 			//see if the packet contains a robot detection frame:
+
 			if (packet.has_detection()) {
 				SSL_DetectionFrame detection = packet.detection();
 				//Display the contents of the robot detection results:
@@ -82,14 +97,14 @@ void Vision::visionLoop() {
 				for (int i = 0; i < robots_blue_n; i++) {
 					SSL_DetectionRobot robot = detection.robots_blue(i);
 					printf("-Robot(B) (%2d/%2d): ", i + 1, robots_blue_n);
-					printRobotInfo(robot);
+					//printRobotInfo(robot);
 				}
 
 				//Yellow robot info:
 				for (int i = 0; i < robots_yellow_n; i++) {
 					SSL_DetectionRobot robot = detection.robots_yellow(i);
 					printf("-Robot(Y) (%2d/%2d): ", i + 1, robots_yellow_n);
-					printRobotInfo(robot);
+					//printRobotInfo(robot);
 				}
 
 			}
@@ -141,7 +156,7 @@ void Vision::visionLoop() {
 				}
 			}
 		}
-	}
+	}*/
 
 	QThread::yieldCurrentThread();
 }

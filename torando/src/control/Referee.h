@@ -20,15 +20,17 @@ class Referee: public QObject {
 
 		static void stop();
 
+		static Referee referee;
 	signals:
 		void refereeReceived();
 
 	private slots:
-		void refereeLoop();
+		void refereeLoop(){
+
+		}
 
 	private:
 
-		static Referee referee;
 		QTimer timer;
 
 		Referee();

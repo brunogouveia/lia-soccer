@@ -13,114 +13,105 @@ class Strategy {
 		Strategy();
 		virtual ~Strategy();
 
-
-
 		// Accepted game events.
-		    typedef enum {
-		      None,
-		      Halt,
-		      StartPlay,
-		      StopPlay,
-		      Neutral,
-		      KickOff,  KickOffOther,
-		      Penalty,  PenaltyOther,
-		      FreeKick, FreeKickOther,
-		      Indirect, IndirectOther,
+		typedef enum {
+			None, Halt, StartPlay, StopPlay, Neutral, KickOff, KickOffOther, Penalty, PenaltyOther, FreeKick, FreeKickOther, Indirect, IndirectOther,
 
-		    } GameEvent;
+		} GameEvent;
 
+		// debug: GameState should be set in constructor!
 
+		// Starts a thread to consume events.
+		bool start();
 
+		// Stops the event loop thread.
+		void stop();
 
-		    // debug: GameState should be set in constructor!
+		// Insert a new game event.
+		void insertEvent(GameEvent event);
 
-		    // Starts a thread to consume events.
-		    bool start();
+		// The strategy's event loop is running.
+		bool isRunning() {
+			return _running;
+		}
 
-		    // Stops the event loop thread.
-		    void stop();
+	protected:
 
-		    // Insert a new game event.
-		    void insertEvent( GameEvent event );
+		/*** Robot and ball locations information ***/
 
-		    // The strategy's event loop is running.
-		    bool isRunning()  { return _running; }
+		// Fills 'team', 'opponent' and 'ball' with information.
 
+		/*** Other informations ***/
 
-		  protected:
+		int getTeamId() {
+			return _teamId;
+		}
 
-		    /*** Robot and ball locations information ***/
+		/** Game events
+		 */
 
-		    // Fills 'team', 'opponent' and 'ball' with information.
+		virtual void startPlay(){
 
+		}
+		virtual void stopPlay(){
 
+		}
 
+		virtual void prepareNeutral() {
+		}
 
-		    /*** Other informations ***/
+		virtual void prepareKickOff() {
+		}
+		virtual void prepareKickOffOther() {
+		}
 
-		    int getTeamId()  { return _teamId; }
+		virtual void preparePenalty() {
+		}
+		virtual void preparePenaltyOther() {
+		}
 
+		virtual void prepareFreeKick() {
+		}
+		virtual void prepareFreeKickOther() {
+		}
 
+		virtual void prepareIndirect() {
+		}
+		virtual void prepareIndirectOther() {
+		}
 
+		// Loop for event consume.
+		void eventLoop();
 
+		// Blocks until a new game event arrives and returns it.
+		GameEvent waitNextEvent();
 
-		    /** Game events
-		     */
+		// Consume game events stored in the event queue calling the respective
+		// event virtual methods.
+		// Obs: not synchronized!
+		void consumeEvent(GameEvent event);
 
-		    virtual void startPlay() =0;
-		    virtual void stopPlay()  =0;
+		// Cancel all pending command threads and wait them to join.
+		void stopAllThreads();
 
-		    virtual void prepareNeutral() {}
+		// Calls eventLoop().
+		static void *startLoopThread(void *args);
 
-		    virtual void prepareKickOff()      {}
-		    virtual void prepareKickOffOther() {}
+		// Calls consumeEvent().
+		static void *startConsumeThread(void *args);
 
-		    virtual void preparePenalty()      {}
-		    virtual void preparePenaltyOther() {}
+		// Synchonyzed access:
+		//
+		int _teamId;    // This strategy team.
 
-		    virtual void prepareFreeKick()      {}
-		    virtual void prepareFreeKickOther() {}
+		bool _haveToFinish;  // Signals derived class to finish.
+		bool _playing;       // Some strategy game method is running.
+		bool _running;       // Event loop is running.
 
-		    virtual void prepareIndirect()      {}
-		    virtual void prepareIndirectOther() {}
+		// Thread stuffs.
+		//
 
-
-		    // Loop for event consume.
-		    void eventLoop();
-
-		    // Blocks until a new game event arrives and returns it.
-		    GameEvent waitNextEvent();
-
-		    // Consume game events stored in the event queue calling the respective
-		    // event virtual methods.
-		    // Obs: not synchronized!
-		    void consumeEvent( GameEvent event );
-
-		    // Cancel all pending command threads and wait them to join.
-		    void stopAllThreads();
-
-
-		    // Calls eventLoop().
-		    static void *startLoopThread( void *args );
-
-		    // Calls consumeEvent().
-		    static void *startConsumeThread( void *args );
-
-
-		    // Synchonyzed access:
-		    //
-		    int               _teamId;    // This strategy team.
-
-		    bool _haveToFinish;  // Signals derived class to finish.
-		    bool _playing;       // Some strategy game method is running.
-		    bool _running;       // Event loop is running.
-
-		    // Thread stuffs.
-		    //
-
-
-
-		    //std::list<pthread_t> _threadSet;
+		//std::list<pthread_t> _threadSet;
 };
 
 #endif /* STRATEGY_H_ */

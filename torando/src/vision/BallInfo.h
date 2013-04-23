@@ -15,7 +15,7 @@ class BallInfo {
 
 		float x;
 		float y;
-		float x;
+		float z;
 };
 
 #endif /* BALLINFO_H_ */

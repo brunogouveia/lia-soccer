@@ -15,6 +15,7 @@
 
 #include "../templates/List.h"
 
+#include "Strategy.h"
 #include "Referee.h"
 #include "Robot.h"
 
@@ -97,7 +98,8 @@ class Control: public QObject {
 		void exec();
 
 	private:
-		List<Robot> robots;
+		//Strategy stragety;
+		//List<Robot> robots;
 };
 
 #endif /* CONTROL_H_ */

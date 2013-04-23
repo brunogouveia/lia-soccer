@@ -13,9 +13,11 @@ QThread Control::thread;
 bool Control::running = false;
 
 Control::Control() {
+	//connect(&Referee::referee, SIGNAL(refereeReceived()), this, SLOT(controlLoop()));
 }
 
 Control::~Control() {
+	//disconnect(&Referee::referee, SIGNAL(refereeReceived()), this, SLOT(controlLoop()));
 }
 
 void Control::start() {
@@ -36,7 +38,7 @@ void Control::stop() {
 }
 
 void Control::exec() {
-	while (running){
+	while (running) {
 		controlLoop();
 		QThread::yieldCurrentThread();
 	}
@@ -44,6 +46,5 @@ void Control::exec() {
 
 void Control::controlLoop() {
 	printf("ControlThread::controlLoop\n");
-	QThread::yieldCurrentThread();
 }
 
