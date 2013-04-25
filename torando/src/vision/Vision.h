@@ -11,6 +11,8 @@
 #include <QObject>
 #include <QtCore>
 
+//#include <ThreadModule.h>
+
 #include "../templates/List.h"
 #include "RobotInfo.h"
 #include "BallInfo.h"

@@ -11,7 +11,6 @@
 #include <QObject>
 #include <QtCore>
 #include <QTimer>
-#include <QtNetwork>
 
 #include "netraw.h"
 #include "grSim_Packet.pb.h"

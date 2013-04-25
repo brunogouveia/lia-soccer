@@ -48,18 +48,9 @@ void Vision::changeInterval(int milSeconds) {
 void Vision::visionLoop() {
 	printf("Vision::visionLoop\n");
 
-	RoboCupSSLReferee referee;
-	referee.open();
-	while (true) {
-		std::cout << "teste" << endl;
-		SSL_Referee frame;
-		if (referee.receive(frame))
-			std::cout << "TS=" << frame.packet_timestamp() << ", stage=" << frame.stage() << ", stage_time_left=" << frame.stage_time_left() << ", command=" << frame.command() << ", yscore=" << frame.yellow().score() << ", bscore=" << frame.blue().score() << '\n';
-		else
-			std::cout << "fail" << endl;
-	}
 
-	/*RoboCupSSLClient client;
+
+	RoboCupSSLClient client;
 	client.open(true);
 	SSL_WrapperPacket packet;
 
@@ -156,7 +147,7 @@ void Vision::visionLoop() {
 				}
 			}
 		}
-	}*/
+	}
 
 	QThread::yieldCurrentThread();
 }
