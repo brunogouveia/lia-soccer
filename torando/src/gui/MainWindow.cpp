@@ -41,9 +41,9 @@ void MainWindow::visionButtonMethod() {
 	static bool running = false;
 
 	if (!running)
-		Vision::start();
+		Vision::startModule();
 	else
-		Vision::stop();
+		Vision::stopModule();
 	running = !running;
 }
 
@@ -51,10 +51,10 @@ void MainWindow::controlButtonMethod() {
 	static bool running = false;
 
 	if (!running) {
-		Control::start();
+		Control::startModule();
 		printf("Começou\n");
 	} else {
-		Control::stop();
+		Control::stopModule();
 		printf("Parou\n");
 	}
 	running = !running;
@@ -64,12 +64,12 @@ void MainWindow::communicationButtonMethod() {
 	static bool running = false;
 
 	if (!running) {
-		Communication::start();
+		Communication::startModule();
 		Communication::setWheelsVelocity(0, 10.0f, 10.0f, 10.0f, 10.0f);
 		Communication::setWheelsVelocity(2,10,-10,10,-10);
 		printf("Começou\n");
 	} else {
-		Communication::stop();
+		Communication::stopModule();
 		printf("Parou\n");
 	}
 	running = !running;

@@ -11,7 +11,17 @@
 #include <QObject>
 #include <QtCore>
 
-//#include <ThreadModule.h>
+#include <TimerModule.h>
+#include <ThreadModule.h>
+
+#include <iostream>
+
+#include "robocup_ssl_client.h"
+#include "robocup_ssl_referee.h"
+
+#include "messages_robocup_ssl_detection.pb.h"
+#include "messages_robocup_ssl_geometry.pb.h"
+#include "messages_robocup_ssl_wrapper.pb.h"
 
 #include "../templates/List.h"
 #include "RobotInfo.h"
@@ -20,9 +30,22 @@
 
 class Update;
 
-class Vision: public QObject {
+class Vision: public TimerModule {
 	Q_OBJECT
 	public:
+
+		/**
+		 *     Esta classe é baseada no padrão Singleton, onde só permite uma instancia do tipo
+		 *  Vision no longo da execução do programa.
+		 *     Podemos dividir a classe em duas partes: membros estáticos e nao estáticos.
+		 *
+		 *     Membros estáticos: é uma interface de comunicação com o módulo, são os unicos membros
+		 *  públicos da classe, e servem para simplificar a interação com os outros módulos
+		 *
+		 *     Membros não estáticos: são os membros reponsáveis por fazer o "trabalho sujo" do
+		 *  módulo, eles que realmente fazem o processamento e são acessados a partir da única
+		 *  instancia do tipo Vision.
+		 */
 
 		static List<RobotInfo> robots;
 		static List<RobotInfo> opponents;
@@ -32,14 +55,14 @@ class Vision: public QObject {
 
 		/**
 		 *   Este método inicializa o módulo responsável por atualizar os atributos
-		 * dessa classe, por padrão, a cada 10 milisegundos ocorre uma tentativa
+		 * dessa classe, por padrão, a cada 1 milisegundos ocorre uma tentativa
 		 * de atualização, porém pode-se alterar usando o método changeInterval().
 		 *
 		 *   O Update atualiza automaticamente os atributos desta classe, então não precisa
 		 * se preocupar com isso.
 		 *   Enquanto este método não for chamado, a atualização não vai acontecer.
 		 */
-		static void start();
+		static void startModule();
 
 		/**
 		 *   Este método para o módulo responsável por atualizar os atributos
@@ -48,7 +71,7 @@ class Vision: public QObject {
 		 *   Desencorajamos de chamar esse método a qualquer momento, pois pode gerar
 		 * atraso nos próximos pacotes recebidos pelo ssl-vision.
 		 */
-		static void stop();
+		static void stopModule();
 
 		/**
 		 *   Por padrão o módulo de atualização executa a cada 10 milisegundos, porém
@@ -56,22 +79,41 @@ class Vision: public QObject {
 		 */
 		static void changeInterval(int milSeconds);
 
-	private slots:
+	protected:
+
+		/*
+		 *   Toda classe derivada da classe Module segue o padrão singleton,
+		 * isto é, possui apenas uma instancia da classe durante o longo do
+		 * programa.
+		 *   Portanto para conseguir esta unica instancia, precisa-se chamar o
+		 * método estático getInstance() que retorna uma referencia da
+		 * instancia.
+		 */
+		static Vision & getInstance() {
+			static Vision vision;
+			return vision;
+		}
+
+		/* Atributos utilizados para pegar a informação do ssl-vision.  */
+		RoboCupSSLClient client;
+		SSL_WrapperPacket packet;
 
 		/**
-		 *   Aqui é que as coisas acontecem, visionLoop() é o cara responsável por realmente pegar
-		 * os pacotes, processar, e atualizar os atributos da classe Vision. O resto são só camadas
-		 * superficias para controle ou deixar o código bonito e simples.
+		 *   Métodos utilizados durante a execução do módulo.
+		 *   Quando o módulo é iniciado, o método onPreExecute é chamado
+		 * uma vez. Depois o método doInBackGround é chamado enquanto o
+		 * módulo estiver ativo.
+		 *   Quando o método stopModule() for chamado, o método doInBackGround
+		 * para de ser chamado, e é chamado apenas uma vez o método onPosExecute().
 		 */
-		void visionLoop();
+		virtual void onPreExecute();
+		virtual void doInBackGround();
+		virtual void onPosExecute();
 
 	private:
 
-		static Vision vision;
-		QTimer timer;
-
-		/*   Este métodos estão privados para evitar que alguem instancie um objeto do
-		 * tipo Vision.*/
+		/*   Este métodos estão privados para evitar que alguem instancie ou copie
+		 * um objeto do tipo Vision.*/
 		Vision();
 		virtual ~Vision();
 		Vision(Vision &);

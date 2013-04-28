@@ -18,10 +18,10 @@
   \author  Stefan Zickler, 2009
 */
 //========================================================================
-#include "robocup_ssl_client.h"
+#include "robocup_ssl_referee.h"
 #include <stdio.h>
 
-RoboCupSSLClient::RoboCupSSLClient(int port,
+RoboCupSSLReferee::RoboCupSSLReferee(int port,
                      string net_address,
                      string net_interface)
 {
@@ -32,16 +32,16 @@ RoboCupSSLClient::RoboCupSSLClient(int port,
 }
 
 
-RoboCupSSLClient::~RoboCupSSLClient()
+RoboCupSSLReferee::~RoboCupSSLReferee()
 {
   delete[] in_buffer;
 }
 
-void RoboCupSSLClient::close() {
+void RoboCupSSLReferee::close() {
   mc.close();
 }
 
-bool RoboCupSSLClient::open(bool blocking) {
+bool RoboCupSSLReferee::open(bool blocking) {
   close();
   if(!mc.open(_port,true,true,blocking)) {
     fprintf(stderr,"Unable to open UDP network port: %d\n",_port);
@@ -66,7 +66,7 @@ bool RoboCupSSLClient::open(bool blocking) {
   return(true);
 }
 
-bool RoboCupSSLClient::receive(SSL_WrapperPacket & packet) {
+bool RoboCupSSLReferee::receive(SSL_Referee & packet) {
   Net::Address src;
   int r=0;
   r = mc.recv(in_buffer,MaxDataGramSize,src);

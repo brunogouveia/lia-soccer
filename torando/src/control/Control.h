@@ -13,13 +13,16 @@
 #include <QThread>
 #include <stdio.h>
 
+#include <ThreadModule.h>
+
 #include "../templates/List.h"
+
 
 #include "Strategy.h"
 #include "Referee.h"
 #include "Robot.h"
 
-class Control: public QObject {
+class Control: public ThreadModule {
 	Q_OBJECT
 	public:
 
@@ -28,9 +31,8 @@ class Control: public QObject {
 		 *  Control no longo da execução do programa.
 		 *     Podemos dividir a classe em duas partes: membros estáticos e nao estáticos.
 		 *
-		 *     Membros estáticos: são os membros responsáveis por controlar o módulo de controle
-		 *  como por exemplo iniciar, parar, verificar se o módulo está rodando. Estes membros
-		 *  que estão visíveis nas demais partes do programa.
+		 *     Membros estáticos: é uma interface de comunicação com o módulo, são os unicos membros
+		 *  públicos da classe, e servem para simplificar a interação com os outros módulos
 		 *
 		 *     Membros não estáticos: são os membros reponsáveis por fazer o "trabalho sujo" do
 		 *  módulo, eles que realmente fazem o processamento e são acessados a partir da única
@@ -43,63 +45,49 @@ class Control: public QObject {
 		 * 	 Observe que você pode o módulo de controle a qualquer
 		 * momento chamando o método stop().
 		 */
-		static void start();
-
+		static void startModule() {
+			getInsance().start();
+		}
 		/**
 		 *   Tenta parar a execuçao do módulo de controle.
-		 *   Observe que após este método ser chamado, pode ser
-		 * que o módulo de controle não pare imediatamente, para
-		 * verificar se o módulo realmente parou, use o método
-		 * isRunning().
-		 *   Pode-se também chamar o método waitStop(), para forçar
-		 * que o seu código continue apenas depois do módulo ter
-		 * parado de fato.
 		 */
-		static void stop();
+		static void stopModule() {
+			getInsance().stop();
+		}
+
+	protected:
+		/*
+		 *   Toda classe derivada da classe Module segue o padrão singleton,
+		 * isto é, possui apenas uma instancia da classe durante o longo do
+		 * programa.
+		 *   Portanto para conseguir esta unica instancia, precisa-se chamar o
+		 * método estático getInstance() que retorna uma referencia da
+		 * instancia.
+		 */
+		static Control & getInsance() {
+			static Control control;
+			return control;
+		}
 
 		/**
-		 *   Retorna se o módulo está sendo executado.
+		 *   Métodos utilizados durante a execução do módulo.
+		 *   Quando o módulo é iniciado, o método onPreExecute é chamado
+		 * uma vez. Depois o método doInBackGround é chamado enquanto o
+		 * módulo estiver ativo.
+		 *   Quando o método stopModule() for chamado, o método doInBackGround
+		 * para de ser chamado, e é chamado apenas uma vez o método onPosExecute().
 		 */
-		static bool isRunning();
-
-		/**
-		 *   Após este método ser invocado, ele retorna apenas quando
-		 * o módulo de controle parar de executar.
-		 */
-		static void waitStop();
+		virtual void onPreExecute();
+		virtual void doInBackGround();
+		virtual void onPosExecute();
 
 	private:
-
-		static Control control;
-		static QThread thread;
-
-		static bool running;
-
-		/*Parte obscura da classe Controle, se você não é programador, vaza daqui!*/
-	private:
-
+		/*   Este métodos estão privados para evitar que alguem instancie ou copie
+		 * um objeto do tipo Control.*/
 		Control();
 		virtual ~Control();
-
-		/*   Estes dois métodos não devem ser implementados, pois não faz sentido
-		 * permitir um objeto do tipo Control ser copiado.*/
 		Control(const Control &);
 		Control & operator=(const Control&);
-
-		/*   Este método vai ser executado enquanto o módulo de controle estiver
-		 * sendo executado.
-		 *   Note que o módulo de controle só poderá ser encerrado entre o fim de
-		 * uma execução e no começo de outra execução desse método, portanto tenha
-		 * cuidado de não deixar um loop torando aqui dentro ou fazer ela demorar
-		 * muito. */
-		void controlLoop();
-
-	private slots:
-		void exec();
-
-	private:
-		//Strategy stragety;
-		//List<Robot> robots;
 };
 
 #endif /* CONTROL_H_ */

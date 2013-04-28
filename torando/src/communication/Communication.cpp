@@ -9,59 +9,77 @@
 
 #include <stdio.h>
 
-Communication Communication::communication;
-
 Communication::Communication() {
-	timer.setInterval(20);
-	connect(&timer, SIGNAL(timeout()), this, SLOT(sendPacket()));
+	printf("Communication::Communication\n");
 }
 
 Communication::~Communication() {
-	disconnect(&timer, SIGNAL(timeout()), this, SLOT(sendPacket()));
+	printf("Communication::~Communication\n");
 }
 
-void Communication::start() {
-	communication.preExecute();
-	communication.timer.start();
+void Communication::startModule() {
+	printf("Communication::startModule - started\n");
+	getInstance().start();
+	printf("Communication::startModule - finished\n");
 }
-void Communication::stop() {
-	communication.timer.stop();
-	communication.posExecute();
-}
-
-void Communication::kick(int index) {
-
+void Communication::stopModule() {
+	printf("Communication::stopModule - started\n");
+	getInstance().stop();
+	printf("Communication::stopModule - finished\n");
 }
 
-void Communication::drible(int index, Drible drible) {
+void Communication::changeInterval(int milSeconds){
+	printf("Communication::changeInterval - started\n");
+	getInstance().setInterval(milSeconds);
+	printf("Communication::changeInterval - finished\n");
+}
 
+void Communication::kickX(int index, float speed) {
+	printf("Communication::kickX - started\n");
+	getInstance().packets[index].kickXSpeed = speed;
+	printf("Communication::kickX - finished\n");
+}
+
+void Communication::kickZ(int index, float speed) {
+	printf("Communication::kickZ - started\n");
+	getInstance().packets[index].kickZSpeed = speed;
+	printf("Communication::kickZ - finished\n");
+}
+
+void Communication::drible(int index, bool drible) {
+	printf("Communication::drible - started\n");
+	getInstance().packets[index].spinner = drible;
+	printf("Communication::drible - finished\n");
 }
 
 void Communication::setWheelsVelocity(int index, float frontRight, float frontLeft, float backRight, float backLeft) {
-	communication.packets[index].wheels[0] = frontLeft;
-	communication.packets[index].wheels[1] = backLeft;
-	communication.packets[index].wheels[2] = backRight;
-	communication.packets[index].wheels[3] = frontRight;
+	printf("Communication::setWheelsVelocity - started\n");
+	getInstance().packets[index].wheels[0] = frontLeft;
+	getInstance().packets[index].wheels[1] = backLeft;
+	getInstance().packets[index].wheels[2] = backRight;
+	getInstance().packets[index].wheels[3] = frontRight;
+	printf("Communication::setWheelsVelocity - finished\n");
 }
 
-void Communication::start(int index) {
+/*void Communication::start(int index) {
 
-}
+ }
 
-void Communication::stop(int index) {
+ void Communication::stop(int index) {
 
-}
+ }*/
 
-void Communication::preExecute() {
+void Communication::onPreExecute() {
+	printf("Communication::onPreExecute - started\n");
 	udpsocket.close();
 	bool flag = _addr.setHost("127.0.0.1", 20011);
 	if (udpsocket.open(20011, false, false, false) && flag)
 		printf("SendPacket conectou\n");
-
+	printf("Communication::onPreExecute - finished\n");
 }
 
-void Communication::sendPacket() {
-	printf("SendPacket\n");
+void Communication::doInBackGround() {
+	printf("Communication::doInBackGround - started\n");
 
 	grSim_Packet packet;
 
@@ -80,15 +98,18 @@ void Communication::sendPacket() {
 		command->set_veltangent(0.0);
 		command->set_velnormal(0.0);
 		command->set_velangular(0.0);
-		command->set_kickspeedx(0.0);
-		command->set_kickspeedz(0.0);
-		command->set_spinner(false);
+		command->set_kickspeedx(packets[i].kickXSpeed);
+		command->set_kickspeedz(packets[i].kickZSpeed);
+		command->set_spinner(packets[i].spinner);
 	}
 	std::string s;
 	packet.SerializeToString(&s);
 	udpsocket.send((void*) s.c_str(), s.length(), _addr);
+	printf("Communication::doInBackGround - finished\n");
 }
 
-void Communication::posExecute() {
+void Communication::onPosExecute() {
+	printf("Communication::onPosExecute - started\n");
 	udpsocket.close();
+	printf("Communication::onPosExecute - finished\n");
 }
