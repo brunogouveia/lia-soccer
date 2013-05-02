@@ -46,13 +46,13 @@ class Control: public ThreadModule {
 		 * momento chamando o método stop().
 		 */
 		static void startModule() {
-			getInsance().start();
+			getInstance().start();
 		}
 		/**
 		 *   Tenta parar a execuçao do módulo de controle.
 		 */
 		static void stopModule() {
-			getInsance().stop();
+			getInstance().stop();
 		}
 
 	protected:
@@ -64,7 +64,7 @@ class Control: public ThreadModule {
 		 * método estático getInstance() que retorna uma referencia da
 		 * instancia.
 		 */
-		static Control & getInsance() {
+		static Control & getInstance() {
 			static Control control;
 			return control;
 		}
@@ -78,8 +78,11 @@ class Control: public ThreadModule {
 		 * para de ser chamado, e é chamado apenas uma vez o método onPosExecute().
 		 */
 		virtual void onPreExecute();
-		virtual void doInBackGround();
+		virtual void doInBackground();
 		virtual void onPosExecute();
+
+	private slots:
+		void callStrategy();
 
 	private:
 		/*   Este métodos estão privados para evitar que alguem instancie ou copie

@@ -8,14 +8,17 @@
 #ifndef ROBOTINFO_H_
 #define ROBOTINFO_H_
 
-class RobotInfo {
+class RobotInfo : public Target {
 	public:
 		RobotInfo();
 		virtual ~RobotInfo();
 
+	private:
 		float x;
 		float y;
 		float orientation;
+
+		friend class Vision;
 };
 
 #endif /* ROBOTINFO_H_ */

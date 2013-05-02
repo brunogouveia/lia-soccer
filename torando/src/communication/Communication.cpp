@@ -78,7 +78,7 @@ void Communication::onPreExecute() {
 	printf("Communication::onPreExecute - finished\n");
 }
 
-void Communication::doInBackGround() {
+void Communication::doInBackground() {
 	printf("Communication::doInBackGround - started\n");
 
 	grSim_Packet packet;

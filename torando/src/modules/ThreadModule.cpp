@@ -39,7 +39,7 @@ void ThreadModule::exec() {
 	printf("ThreadModule::exec()\n");
 	onPreExecute();
 	while (running) {
-		doInBackGround();
+		doInBackground();
 		QThread::yieldCurrentThread();
 	}
 	onPosExecute();

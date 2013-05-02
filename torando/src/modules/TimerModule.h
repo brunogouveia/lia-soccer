@@ -53,7 +53,7 @@ class TimerModule: public Module {
 		virtual void onDisconnectToTimer(QTimer * timer);
 
 		virtual void onPreExecute();
-		virtual void doInBackGround()=0;
+		virtual void doInBackground()=0;
 		virtual void onPosExecute();
 
 	protected slots:

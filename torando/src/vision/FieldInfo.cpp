@@ -5,14 +5,14 @@
  *      Author: bruno
  */
 
-#include "FIeldInfo.h"
+#include "FieldInfo.h"
 
-FIeldInfo::FIeldInfo() {
+FieldInfo::FieldInfo() {
 	// TODO Auto-generated constructor stub
 
 }
 
-FIeldInfo::~FIeldInfo() {
+FieldInfo::~FieldInfo() {
 	// TODO Auto-generated destructor stub
 }
 

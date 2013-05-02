@@ -30,7 +30,7 @@ class Module: public QObject {
 		virtual void stop() = 0;
 
 		virtual void onPreExecute() =0;
-		virtual void doInBackGround() =0;
+		virtual void doInBackground() =0;
 		virtual void onPosExecute() =0;
 
 	private:

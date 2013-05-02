@@ -29,6 +29,7 @@ class List {
 		ListIterator<T> * getIterator();
 
 	private:
+		int size;
 		List(const List<T> &);
 		List<T> & operator=(const List<T>&);
 };

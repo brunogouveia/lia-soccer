@@ -12,26 +12,24 @@
 #include <QtCore>
 #include <QTimer>
 
-class Referee: public QObject {
+class Referee: public TimerModule {
 	Q_OBJECT
 	public:
-
-		static void start();
-
-		static void stop();
-
-		static Referee referee;
-	signals:
-		void refereeReceived();
-
-	private slots:
-		void refereeLoop(){
-
+		static void startModule();
+		static void stopModule();
+		static Referee & getInstance() {
+			static Referee referee;
+			return referee;
 		}
+
+	signals:
+		void newCommand();
 
 	private:
 
-		QTimer timer;
+		virtual void doInBackground() {
+
+		}
 
 		Referee();
 		virtual ~Referee();

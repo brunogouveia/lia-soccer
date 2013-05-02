@@ -107,7 +107,7 @@ class Communication: TimerModule {
 		 * para de ser chamado, e é chamado apenas uma vez o método onPosExecute().
 		 */
 		virtual void onPreExecute();
-		virtual void doInBackGround();
+		virtual void doInBackground();
 		virtual void onPosExecute();
 
 	private:

@@ -8,10 +8,10 @@
 #ifndef FIELDINFO_H_
 #define FIELDINFO_H_
 
-class FIeldInfo {
+class FieldInfo {
 	public:
-		FIeldInfo();
-		virtual ~FIeldInfo();
+		FieldInfo();
+		virtual ~FieldInfo();
 };
 
 #endif /* FIELDINFO_H_ */

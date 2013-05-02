@@ -47,7 +47,7 @@ class ThreadModule: public Module {
 		virtual void onDisconnectToThread(QThread * thread);
 
 		virtual void onPreExecute();
-		virtual void doInBackGround()=0;
+		virtual void doInBackground()=0;
 		virtual void onPosExecute();
 
 	protected slots:

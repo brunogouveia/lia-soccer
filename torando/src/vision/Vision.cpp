@@ -10,7 +10,7 @@
 List<RobotInfo> Vision::robots;
 List<RobotInfo> Vision::opponents;
 
-FIeldInfo Vision::field;
+FieldInfo Vision::field;
 BallInfo Vision::ball;
 
 Vision::Vision() {
@@ -48,7 +48,7 @@ void Vision::onPreExecute() {
 	printf("Vision::onPreExecute - finished\n");
 }
 
-void Vision::doInBackGround() {
+void Vision::doInBackground() {
 	printf("Vision::doInBackGround - started\n");
 
 	if (client.receive(packet)) {

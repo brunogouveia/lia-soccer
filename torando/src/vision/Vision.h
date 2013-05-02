@@ -26,7 +26,7 @@
 #include "../templates/List.h"
 #include "RobotInfo.h"
 #include "BallInfo.h"
-#include "FIeldInfo.h"
+#include "FieldInfo.h"
 
 class Update;
 
@@ -51,7 +51,9 @@ class Vision: public TimerModule {
 		static List<RobotInfo> opponents;
 
 		static BallInfo ball;
-		static FIeldInfo field;
+		static FieldInfo field;
+		static TargetFixed opponentGoal;
+		static TargetFixed goal;
 
 		/**
 		 *   Este método inicializa o módulo responsável por atualizar os atributos
@@ -107,7 +109,7 @@ class Vision: public TimerModule {
 		 * para de ser chamado, e é chamado apenas uma vez o método onPosExecute().
 		 */
 		virtual void onPreExecute();
-		virtual void doInBackGround();
+		virtual void doInBackground();
 		virtual void onPosExecute();
 
 	private:

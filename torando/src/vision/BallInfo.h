@@ -8,14 +8,18 @@
 #ifndef BALLINFO_H_
 #define BALLINFO_H_
 
-class BallInfo {
+class BallInfo : public Target {
 	public:
 		BallInfo();
 		virtual ~BallInfo();
 
+	private:
+
 		float x;
 		float y;
 		float z;
+
+		friend class Vision;
 };
 
 #endif /* BALLINFO_H_ */
