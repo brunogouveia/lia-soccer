@@ -12,6 +12,8 @@ List<RobotInfo> Vision::opponents;
 
 FieldInfo Vision::field;
 BallInfo Vision::ball;
+TargetFixed Vision::opponentGoal;
+TargetFixed Vision::goal;
 
 Vision::Vision() {
 	printf("Vision::Vision\n");

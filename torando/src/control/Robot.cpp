@@ -7,3 +7,6 @@
 
 #include "Robot.h"
 
+void Robot::loop() {
+
+}

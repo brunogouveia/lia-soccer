@@ -11,6 +11,11 @@
 #include <QtCore>
 #include <QThread>
 
+#include <Vision.h>
+#include <Target.h>
+#include <RobotInfo.h>
+#include <Path.h>
+
 class Robot: public QObject {
 	Q_OBJECT
 	public:
@@ -23,7 +28,8 @@ class Robot: public QObject {
 		 *
 		 */
 
-		Robot(RobotInfo & info) {
+		Robot(RobotInfo & info) :
+				info(info), path(info), destination(info), lookat(info) {
 			this->info = info;
 			this->lookat = Vision::opponentGoal;
 			this->_id = findRobotId();
@@ -64,8 +70,8 @@ class Robot: public QObject {
 	private:
 
 		RobotInfo & info;
-		Target & destination, lookat;
 		Path path;
+		Target & destination, lookat;
 		int _id;
 		QThread thread;
 

@@ -8,6 +8,8 @@
 #ifndef ROBOTINFO_H_
 #define ROBOTINFO_H_
 
+#include <Target.h>
+
 class RobotInfo : public Target {
 	public:
 		RobotInfo();

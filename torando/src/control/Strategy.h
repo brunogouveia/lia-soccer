@@ -8,6 +8,9 @@
 #ifndef STRATEGY_H_
 #define STRATEGY_H_
 
+#include <Vision.h>
+#include <Robot.h>
+
 class Strategy: public QObject {
 		Q_OBJECT
 	public:

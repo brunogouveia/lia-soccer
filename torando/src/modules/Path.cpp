@@ -7,12 +7,4 @@
 
 #include "Path.h"
 
-Path::Path() {
-	// TODO Auto-generated constructor stub
-
-}
-
-Path::~Path() {
-	// TODO Auto-generated destructor stub
-}
 

@@ -28,6 +28,8 @@
 #include "BallInfo.h"
 #include "FieldInfo.h"
 
+#include <TargetFixed.h>
+
 class Update;
 
 class Vision: public TimerModule {

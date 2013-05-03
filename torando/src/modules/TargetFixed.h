@@ -8,6 +8,8 @@
 #ifndef TARGETFIXED_H_
 #define TARGETFIXED_H_
 
+#include <Target.h>
+
 class TargetFixed : public Target{
 	public:
 		TargetFixed();

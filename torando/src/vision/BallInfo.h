@@ -8,6 +8,8 @@
 #ifndef BALLINFO_H_
 #define BALLINFO_H_
 
+#include <Target.h>
+
 class BallInfo : public Target {
 	public:
 		BallInfo();

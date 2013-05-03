@@ -12,6 +12,8 @@
 #include <QtCore>
 #include <QTimer>
 
+#include <TimerModule.h>
+
 class Referee: public TimerModule {
 	Q_OBJECT
 	public:

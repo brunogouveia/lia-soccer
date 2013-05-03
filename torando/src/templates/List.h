@@ -15,7 +15,7 @@ class ListNode;
 template<typename T>
 class ListIterator;
 
-template<typename T, int size = 12>
+template<typename T>
 class List {
 	public:
 		List();
@@ -61,31 +61,31 @@ class ListIterator {
 		~ListIterator();
 };
 
-template<typename T, int size>
-List<T, size>::List() {
+template<typename T>
+List<T>::List() {
 
 }
-template<typename T, int size>
-List<T, size>::~List() {
+template<typename T>
+List<T>::~List() {
 
 }
 
-template<typename T, int size>
-bool List<T, size>::add(const ListNode<T> & node) {
+template<typename T>
+bool List<T>::add(const ListNode<T> & node) {
 	return false;
 }
-template<typename T, int size>
-bool List<T, size>::add(const List<T> & list) {
-	return false;
-}
-
-template<typename T, int size>
-bool List<T, size>::remove(const T & value) {
+template<typename T>
+bool List<T>::add(const List<T> & list) {
 	return false;
 }
 
-template<typename T, int size>
-ListIterator<T> * List<T, size>::getIterator() {
+template<typename T>
+bool List<T>::remove(const T & value) {
+	return false;
+}
+
+template<typename T>
+ListIterator<T> * List<T>::getIterator() {
 	return NULL;
 }
 /*=============================================================*/

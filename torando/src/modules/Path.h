@@ -8,13 +8,16 @@
 #ifndef PATH_H_
 #define PATH_H_
 
+#include <Target.h>
+#include <TargetFixed.h>
+
+
 class Path {
 	public:
-		Path(Target & from) {
-			this->from = from;
-			this->to = from;
+		Path(Target & from) :
+				from(from), to(from) {
 		}
-		virtual ~Path();
+		virtual ~Path(){}
 
 		// Retorna o próximo ponto no caminho para o destino
 		TargetFixed getNextPoint();
