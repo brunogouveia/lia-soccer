@@ -10,7 +10,7 @@
 
 #include <Target.h>
 
-class TargetFixed : public Target{
+class TargetFixed: public Target {
 	public:
 		TargetFixed();
 		virtual ~TargetFixed();

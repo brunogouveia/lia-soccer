@@ -53,7 +53,7 @@ class Robot: public QObject {
 		/**
 		 *   Faz o robot chutar com a velocidade velocity m/s
 		 */
-		void kick(float velocity);
+		void kickTo(Target & to, float power);
 
 		/**
 		 *   Liga ou desliga o dribble.

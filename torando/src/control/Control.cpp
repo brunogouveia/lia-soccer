@@ -6,6 +6,7 @@
  */
 
 #include "Control.h"
+#include <unistd.h>
 
 Control::Control() {
 	//Referee referee = Referee::getInstance();
@@ -21,9 +22,14 @@ void Control::onPreExecute() {
 }
 
 void Control::doInBackground() {
-	printf("Control::doInBackGround - started\n");
+	//printf("Control::doInBackGround - started\n");
 
-	printf("Control::doInBackGround - finished\n");
+	printf("%d\n", Vision::robots.size());
+	for(int i = 0; i < Vision::robots.size(); i++)
+		printf("Robô (%d): %f %f\n", i, Vision::robots[i].x(), Vision::robots[i].y());
+	usleep(1000);
+
+	//printf("Control::doInBackGround - finished\n");
 
 }
 

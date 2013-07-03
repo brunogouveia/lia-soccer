@@ -23,7 +23,7 @@
 #include "messages_robocup_ssl_geometry.pb.h"
 #include "messages_robocup_ssl_wrapper.pb.h"
 
-#include "../templates/List.h"
+#include "../templates/RobotList.h"
 #include "RobotInfo.h"
 #include "BallInfo.h"
 #include "FieldInfo.h"
@@ -49,8 +49,8 @@ class Vision: public TimerModule {
 		 *  instancia do tipo Vision.
 		 */
 
-		static List<RobotInfo> robots;
-		static List<RobotInfo> opponents;
+		static RobotList robots;
+		static RobotList opponents;
 
 		static BallInfo ball;
 		static FieldInfo field;

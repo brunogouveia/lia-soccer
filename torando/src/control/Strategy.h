@@ -60,7 +60,7 @@ class Strategy: public QObject {
 	private:
 		bool running;
 
-		List<Robot> robots;
+		//Array<Robot> robots;
 		friend class Control;
 
 };

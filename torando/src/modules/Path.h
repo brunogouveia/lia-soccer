@@ -11,13 +11,13 @@
 #include <Target.h>
 #include <TargetFixed.h>
 
-
 class Path {
 	public:
 		Path(Target & from) :
 				from(from), to(from) {
 		}
-		virtual ~Path(){}
+		virtual ~Path() {
+		}
 
 		// Retorna o próximo ponto no caminho para o destino
 		TargetFixed getNextPoint();
@@ -31,6 +31,11 @@ class Path {
 	private:
 		Target & from;
 		Target & to;
+};
+
+class PathNode {
+		PathNode * parent;
+		Target target;
 };
 
 #endif /* PATH_H_ */
