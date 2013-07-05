@@ -43,8 +43,6 @@ class RobotInfo: public Target {
 			return _onField;
 		}
 	private:
-		float _x;
-		float _y;
 		float _orientation;
 		float _confidence;
 		float _pixelx;

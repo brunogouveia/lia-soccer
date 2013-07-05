@@ -13,10 +13,13 @@ class Target {
 		Target();
 		virtual ~Target();
 
+		inline float x() {return _x;}
+		inline float y() {return _y;}
+
 	protected:
 
-		float x;
-		float y;
+		float _x;
+		float _y;
 
 		friend class Vision;
 

@@ -52,7 +52,7 @@ void Communication::drible(int index, bool drible) {
 	printf("Communication::drible - finished\n");
 }
 
-void Communication::setWheelsVelocity(int index, float frontRight, float frontLeft, float backRight, float backLeft) {
+void Communication::setWheelsVelocity(int index, float frontLeft, float backLeft, float backRight, float frontRight) {
 	printf("Communication::setWheelsVelocity - started\n");
 	getInstance().packets[index].wheels[0] = frontLeft;
 	getInstance().packets[index].wheels[1] = backLeft;
@@ -83,7 +83,7 @@ void Communication::doInBackground() {
 
 	grSim_Packet packet;
 
-	bool yellow = true;
+	bool yellow = false;
 	packet.mutable_commands()->set_isteamyellow(yellow);
 	packet.mutable_commands()->set_timestamp(0.0);
 	for (int i = 0; i < 10; i++) {

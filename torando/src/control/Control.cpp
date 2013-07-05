@@ -6,6 +6,7 @@
  */
 
 #include "Control.h"
+#include "Robot.h"
 #include <unistd.h>
 
 Control::Control() {
@@ -24,10 +25,14 @@ void Control::onPreExecute() {
 void Control::doInBackground() {
 	//printf("Control::doInBackGround - started\n");
 
-	printf("%d\n", Vision::robots.size());
+	Robot robot(Vision::robots[0]);
+	printf("Ball: %f %f\n",Vision::ball.x(), Vision::ball.y());
+	robot.followTarget(Vision::ball);
+
+	/*printf("%d\n", Vision::robots.size());
 	for(int i = 0; i < Vision::robots.size(); i++)
 		printf("Robô (%d): %f %f\n", i, Vision::robots[i].x(), Vision::robots[i].y());
-	usleep(1000);
+	*/usleep(1000);
 
 	//printf("Control::doInBackGround - finished\n");
 

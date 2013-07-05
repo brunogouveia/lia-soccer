@@ -32,7 +32,10 @@ class Robot: public QObject {
 				info(info), path(info), destination(info), lookat(info) {
 			this->info = info;
 			this->lookat = Vision::opponentGoal;
-			this->_id = findRobotId();
+
+			/*TODO : encontrar o id correto*/
+			//this->_id = findRobotId();
+			this->_id = 0;
 
 			connect(&thread, SIGNAL(started()), this, SLOT(loop()));
 		}
