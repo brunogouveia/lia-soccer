@@ -25,8 +25,10 @@ void Control::onPreExecute() {
 void Control::doInBackground() {
 	//printf("Control::doInBackGround - started\n");
 
+
 	Robot robot(Vision::robots[0]);
 	printf("Ball: %f %f\n",Vision::ball.x(), Vision::ball.y());
+	robot.lookAt();
 	robot.followTarget(Vision::ball);
 
 	/*printf("%d\n", Vision::robots.size());

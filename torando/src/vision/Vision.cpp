@@ -12,8 +12,8 @@ RobotList Vision::opponents;
 
 FieldInfo Vision::field;
 BallInfo Vision::ball;
-TargetFixed Vision::opponentGoal;
-TargetFixed Vision::goal;
+TargetFixed Vision::opponentGoal(3090.0,0.0);
+TargetFixed Vision::goal(-3090.0,0.0);
 
 Vision::Vision() {
 	printf("Vision::Vision\n");

@@ -12,7 +12,7 @@
 
 class TargetFixed: public Target {
 	public:
-		TargetFixed();
+		TargetFixed(float x, float y);
 		virtual ~TargetFixed();
 };
 

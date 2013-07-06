@@ -65,8 +65,6 @@ void MainWindow::communicationButtonMethod() {
 
 	if (!running) {
 		Communication::startModule();
-		Communication::setWheelsVelocity(0, 50.0f, 50.0f, 50.0f, 50.0f);
-		Communication::setWheelsVelocity(2,50,-50,50,-50);
 		printf("Começou\n");
 	} else {
 		Communication::stopModule();

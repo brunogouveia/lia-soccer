@@ -13,6 +13,7 @@
 
 #include <Vision.h>
 #include <Target.h>
+#include <TargetFixed.h>
 #include <RobotInfo.h>
 #include <Path.h>
 
@@ -63,6 +64,10 @@ class Robot: public QObject {
 		 */
 		void dribble(bool on);
 
+	private:
+		TargetFixed getNextPoint();
+		float potential(float x, float y);
+
 	private slots:
 		/**
 		 *   Este método faz o processamento, ou seja, ele que faz o robo seguir o
@@ -74,7 +79,7 @@ class Robot: public QObject {
 
 		RobotInfo & info;
 		Path path;
-		Target & destination, lookat;
+		Target destination, lookat;
 		int _id;
 		QThread thread;
 

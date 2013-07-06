@@ -7,9 +7,9 @@
 
 #include "TargetFixed.h"
 
-TargetFixed::TargetFixed() {
-	// TODO Auto-generated constructor stub
-
+TargetFixed::TargetFixed(float x, float y) {
+	_x = x;
+	_y = y;
 }
 
 TargetFixed::~TargetFixed() {
