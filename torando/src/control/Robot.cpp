@@ -8,6 +8,7 @@
 #include "Robot.h"
 #include "Communication.h"
 #include <stdio.h>
+#include <math.h>
 
 #define pi 3.14159265359
 
@@ -97,16 +98,18 @@ float Robot::potential(float x, float y) {
 	float ka = 0.9;
 	float potential = 0.5 * ka * (x - destination.x()) * (x - destination.x()) + (y - destination.y()) * (y - destination.y());
 
-	float kr = 0.9;
+	float kr = 2.9;
 
 	int numRobots = Vision::robots.size();
 	printf("Num blue robots: %d\n", numRobots);
 	for (int i = 0; i < numRobots; i++) {
 		RobotInfo robot = Vision::robots[i];
 
-		float distanceSquare = (x - robot.x()) * (x - robot.x()) + (y - robot.y()) * (y - robot.y());
+		float distanceSquare = sqrt((x - robot.x()) * (x - robot.x()) + (y - robot.y()) * (y - robot.y()));
 
-		potential += 0.5 * kr * 1 / distanceSquare;
+		if (distanceSquare < 1000) {
+			potential += 0.5 * kr * (1 / distanceSquare - 1 / 1000);
+		}
 	}
 
 	int numOpponents = Vision::opponents.size();
@@ -114,9 +117,11 @@ float Robot::potential(float x, float y) {
 	for (int i = 0; i < numOpponents; i++) {
 		RobotInfo robot = Vision::opponents[i];
 
-		float distanceSquare = (x - robot.x()) * (x - robot.x()) + (y - robot.y()) * (y - robot.y());
+		float distanceSquare = sqrt((x - robot.x()) * (x - robot.x()) + (y - robot.y()) * (y - robot.y()));
 
-		potential += 0.5 * kr * 1 / distanceSquare;
+		if (distanceSquare < 1000) {
+			potential += 0.5 * kr * (1 / distanceSquare - 1 / 1000);
+		}
 	}
 	return potential;
 }
