@@ -30,7 +30,7 @@ class Robot: public QObject {
 		 */
 
 		Robot(RobotInfo & info) :
-				info(info), path(info), destination(info), lookat(info) {
+				info(info), path(info), lookat(info) {
 			this->info = info;
 			this->lookat = Vision::opponentGoal;
 
@@ -64,9 +64,6 @@ class Robot: public QObject {
 		 */
 		void dribble(bool on);
 
-	private:
-		TargetFixed getNextPoint();
-		float potential(float x, float y);
 
 	private slots:
 		/**
@@ -79,7 +76,7 @@ class Robot: public QObject {
 
 		RobotInfo & info;
 		Path path;
-		Target destination, lookat;
+		Target lookat;
 		int _id;
 		QThread thread;
 

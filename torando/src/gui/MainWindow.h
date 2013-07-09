@@ -23,11 +23,13 @@ class MainWindow: public QMainWindow {
 		QPushButton * visionButton;
 		QPushButton * controlButton;
 		QPushButton * communicationButton;
+		QPushButton * refereeButton;
 
 	private slots:
 		void visionButtonMethod();
 		void controlButtonMethod();
 		void communicationButtonMethod();
+		void refereeButtonMethod();
 };
 
 #endif /* MAINWINDOW_H_ */

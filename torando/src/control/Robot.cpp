@@ -24,9 +24,9 @@ void Robot::lookAt(Target & lookat) {
 void Robot::followTarget(Target & target) {
 	double wheelsAnglesRad[4] = { (double) angles[0] / 180 * pi, (double) angles[1] / 180 * pi, (double) angles[2] / 180 * pi, (double) angles[3] / 180 * pi };
 
-	destination = target;
+	path.changeTarget(target);
 
-	TargetFixed nextPoint = getNextPoint();
+	TargetFixed nextPoint = path.getNextPoint();
 	float targetTheta = atan2(nextPoint.y() - info.y(), nextPoint.x() - info.x()) - info.orientation();
 	float lookTheta = atan2(lookat.y() - info.y(), lookat.x() - info.x()) - info.orientation();
 	float r = -50.0;
@@ -38,85 +38,3 @@ void Robot::followTarget(Target & target) {
 	Communication::setWheelsVelocity(0, sin(wheelsAnglesRad[0] - targetTheta) * r + lookTheta * rl, sin(wheelsAnglesRad[1] - targetTheta) * r + lookTheta * rl, sin(wheelsAnglesRad[2] - targetTheta) * r + lookTheta * rl, sin(wheelsAnglesRad[3] - targetTheta) * r + lookTheta * rl);
 }
 
-TargetFixed Robot::getNextPoint() {
-	float x = info.x();
-	float y = info.y();
-
-	float verticalDist = 40;
-	float diagonalDist = 28;
-
-	TargetFixed n(x, y + verticalDist);
-	TargetFixed ne(x + diagonalDist, y + diagonalDist);
-	TargetFixed e(x + verticalDist, y);
-	TargetFixed se(x + diagonalDist, y - diagonalDist);
-	TargetFixed s(x, y - verticalDist);
-	TargetFixed sw(x - diagonalDist, y - diagonalDist);
-	TargetFixed w(x - verticalDist, y);
-	TargetFixed nw(x - diagonalDist, y + diagonalDist);
-
-	float np = potential(n.x(), n.y());
-
-	float minPotential = np;
-	TargetFixed minPotentialPoint = n;
-
-	float temp;
-	if ((temp = potential(ne.x(), ne.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = ne;
-	}
-	if ((temp = potential(e.x(), e.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = e;
-	}
-	if ((temp = potential(se.x(), se.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = se;
-	}
-	if ((temp = potential(s.x(), s.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = s;
-	}
-	if ((temp = potential(sw.x(), sw.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = sw;
-	}
-	if ((temp = potential(w.x(), w.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = w;
-	}
-	if ((temp = potential(nw.x(), nw.y())) < minPotential) {
-		minPotential = temp;
-		minPotentialPoint = nw;
-	}
-
-	return minPotentialPoint;
-}
-
-float Robot::potential(float x, float y) {
-
-	float ka = 0.9;
-	float potential = 0.5 * ka * (x - destination.x()) * (x - destination.x()) + (y - destination.y()) * (y - destination.y());
-
-	float kr = 0.9;
-
-	int numRobots = Vision::robots.size();
-	printf("Num blue robots: %d\n", numRobots);
-	for (int i = 0; i < numRobots; i++) {
-		RobotInfo robot = Vision::robots[i];
-
-		float distanceSquare = (x - robot.x()) * (x - robot.x()) + (y - robot.y()) * (y - robot.y());
-
-		potential += 0.5 * kr * 1 / distanceSquare;
-	}
-
-	int numOpponents = Vision::opponents.size();
-	printf("Num yell robots: %d\n", numOpponents);
-	for (int i = 0; i < numOpponents; i++) {
-		RobotInfo robot = Vision::opponents[i];
-
-		float distanceSquare = (x - robot.x()) * (x - robot.x()) + (y - robot.y()) * (y - robot.y());
-
-		potential += 0.5 * kr * 1 / distanceSquare;
-	}
-	return potential;
-}

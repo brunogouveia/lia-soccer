@@ -71,8 +71,7 @@ void Communication::setWheelsVelocity(int index, float frontLeft, float backLeft
 
 void Communication::onPreExecute() {
 	printf("Communication::onPreExecute - started\n");
-	udpsocket.close();
-	bool flag = _addr.setHost("127.0.0.1", 20011);
+	bool flag = _addr.setHost("224.5.23.2", 20011);
 	if (udpsocket.open(20011, false, false, false) && flag)
 		printf("SendPacket conectou\n");
 	printf("Communication::onPreExecute - finished\n");

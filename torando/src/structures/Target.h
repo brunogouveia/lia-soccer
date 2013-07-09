@@ -8,6 +8,8 @@
 #ifndef TARGET_H_
 #define TARGET_H_
 
+#include<math.h>
+
 class Target {
 	public:
 		Target();
@@ -15,6 +17,13 @@ class Target {
 
 		inline float x() {return _x;}
 		inline float y() {return _y;}
+
+		float distance(Target & t) {
+			float distX = _x - t.x();
+			float distY = _y - t.y();
+
+			return sqrt(distX * distX + distY * distY);
+		}
 
 	protected:
 

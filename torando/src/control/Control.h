@@ -15,9 +15,6 @@
 
 #include <ThreadModule.h>
 
-#include "../templates/Array.h"
-
-#include "../templates/Array.h"
 #include "RobotInfo.h"
 #include "BallInfo.h"
 #include "FieldInfo.h"

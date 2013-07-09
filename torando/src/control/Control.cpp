@@ -26,6 +26,8 @@ void Control::doInBackground() {
 	//printf("Control::doInBackGround - started\n");
 
 
+	printf("ROBOT: %f %f\n", Vision::robots[0].x(), Vision::robots[0].y());
+
 	Robot robot(Vision::robots[0]);
 	printf("Ball: %f %f\n",Vision::ball.x(), Vision::ball.y());
 	robot.lookAt();

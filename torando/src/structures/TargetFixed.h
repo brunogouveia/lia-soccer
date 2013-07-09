@@ -13,7 +13,13 @@
 class TargetFixed: public Target {
 	public:
 		TargetFixed(float x, float y);
+		TargetFixed(){}
 		virtual ~TargetFixed();
+
+		void set(float x, float y) {
+			_x = x;
+			_y = y;
+		}
 };
 
 #endif /* TARGETFIXED_H_ */

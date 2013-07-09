@@ -23,7 +23,7 @@
 #include "messages_robocup_ssl_geometry.pb.h"
 #include "messages_robocup_ssl_wrapper.pb.h"
 
-#include "../templates/RobotList.h"
+#include "RobotList.h"
 #include "RobotInfo.h"
 #include "BallInfo.h"
 #include "FieldInfo.h"
@@ -82,6 +82,8 @@ class Vision: public TimerModule {
 		 * esse tempo pode ser alterado com este método.
 		 */
 		static void changeInterval(int milSeconds);
+
+		static bool isFree(Target & point, double tolerance = 100.0);
 
 	protected:
 

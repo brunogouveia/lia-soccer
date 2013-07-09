@@ -10,18 +10,21 @@
 #include <Vision.h>
 #include <Control.h>
 #include <Communication.h>
+#include <Referee.h>
 
 MainWindow::MainWindow() {
 	// TODO Auto-generated constructor stub
 	visionButton = new QPushButton("Vision", this);
 	controlButton = new QPushButton("Control", this);
 	communicationButton = new QPushButton("Communication", this);
+	refereeButton = new QPushButton("Referee", this);
 
 	QVBoxLayout * vbox = new QVBoxLayout(this);
 
 	vbox->addWidget(visionButton);
 	vbox->addWidget(controlButton);
 	vbox->addWidget(communicationButton);
+	vbox->addWidget(refereeButton);
 
 	QWidget * centralWidget = new QWidget();
 	centralWidget->setLayout(vbox);
@@ -29,8 +32,13 @@ MainWindow::MainWindow() {
 	showMaximized();
 
 	connect(visionButton, SIGNAL(clicked()), this, SLOT(visionButtonMethod()));
-	connect(controlButton, SIGNAL(clicked()), this, SLOT(controlButtonMethod()));
-	connect(communicationButton, SIGNAL(clicked()), this, SLOT(communicationButtonMethod()));
+	connect(controlButton, SIGNAL(clicked()), this,
+			SLOT(controlButtonMethod()));
+	connect(communicationButton, SIGNAL(clicked()), this,
+			SLOT(communicationButtonMethod()));
+	connect(refereeButton, SIGNAL(clicked()), this,
+			SLOT(refereeButtonMethod()));
+
 }
 
 MainWindow::~MainWindow() {
@@ -40,10 +48,11 @@ MainWindow::~MainWindow() {
 void MainWindow::visionButtonMethod() {
 	static bool running = false;
 
-	if (!running)
+	if (!running) {
 		Vision::startModule();
-	else
+	} else {
 		Vision::stopModule();
+	}
 	running = !running;
 }
 
@@ -68,6 +77,19 @@ void MainWindow::communicationButtonMethod() {
 		printf("Começou\n");
 	} else {
 		Communication::stopModule();
+		printf("Parou\n");
+	}
+	running = !running;
+}
+
+void MainWindow::refereeButtonMethod() {
+	static bool running = false;
+
+	if (!running) {
+		Referee::startModule();
+		printf("Começou\n");
+	} else {
+		Referee::stopModule();
 		printf("Parou\n");
 	}
 	running = !running;

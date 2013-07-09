@@ -12,8 +12,8 @@ RobotList Vision::opponents;
 
 FieldInfo Vision::field;
 BallInfo Vision::ball;
-TargetFixed Vision::opponentGoal(3090.0,0.0);
-TargetFixed Vision::goal(-3090.0,0.0);
+TargetFixed Vision::opponentGoal(3090.0, 0.0);
+TargetFixed Vision::goal(-3090.0, 0.0);
 
 Vision::Vision() {
 	printf("Vision::Vision\n");
@@ -95,7 +95,8 @@ void Vision::doInBackground() {
 				Vision::robots.updateRobot(detection.robots_blue(i));
 			}
 			for (int i = 0; i < 10; i++) {
-				Vision::robots.robots[i]._onField = !(++(Vision::robots.robotsMisses[i]) > 10);
+				Vision::robots.robots[i]._onField =
+						!(++(Vision::robots.robotsMisses[i]) > 10);
 			}
 
 			//Yellow robot info:
@@ -103,7 +104,8 @@ void Vision::doInBackground() {
 				Vision::opponents.updateRobot(detection.robots_yellow(i));
 			}
 			for (int i = 0; i < 10; i++) {
-				Vision::opponents.robots[i]._onField = !(++(Vision::opponents.robotsMisses[i]) > 10);
+				Vision::opponents.robots[i]._onField =
+						!(++(Vision::opponents.robotsMisses[i]) > 10);
 			}
 
 		}
@@ -146,7 +148,9 @@ void Vision::doInBackground() {
 				 printf("  -ty=%.2f\n", calib.ty());
 				 printf("  -tz=%.2f\n", calib.tz());*/
 
-				if (calib.has_derived_camera_world_tx() && calib.has_derived_camera_world_ty() && calib.has_derived_camera_world_tz()) {
+				if (calib.has_derived_camera_world_tx()
+						&& calib.has_derived_camera_world_ty()
+						&& calib.has_derived_camera_world_tz()) {
 					/*printf("  -derived_camera_world_tx=%.f\n", calib.derived_camera_world_tx());
 					 printf("  -derived_camera_world_ty=%.f\n", calib.derived_camera_world_ty());
 					 printf("  -derived_camera_world_tz=%.f\n", calib.derived_camera_world_tz());*/
@@ -165,4 +169,20 @@ void Vision::onPosExecute() {
 	client.close();
 
 	printf("Vision::onPosExecute - terminated\n");
+}
+
+bool Vision::isFree(Target & point, double tolerance) {
+
+	bool free = true;
+
+	for (int i = 0; i < Vision::robots.size(); i++)
+		if (Vision::robots[i].distance(point) < tolerance)
+			free = false;
+
+	for (int i = 0; i < Vision::opponents.size(); i++)
+		if (Vision::opponents[i].distance(point) < tolerance)
+			free = false;
+
+	return free;
+
 }
