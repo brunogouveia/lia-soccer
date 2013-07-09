@@ -5,14 +5,7 @@
  *      Author: bruno
  */
 
-#include "Rnn.h"
+#include "Rrt.h"
 
-Rrt::Rrt() {
-	// TODO Auto-generated constructor stub
-	
-}
 
-Rrt::~Rrt() {
-	// TODO Auto-generated destructor stub
-}
 

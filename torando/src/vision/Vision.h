@@ -23,7 +23,7 @@
 #include "messages_robocup_ssl_geometry.pb.h"
 #include "messages_robocup_ssl_wrapper.pb.h"
 
-#include "../templates/RobotList.h"
+#include "RobotList.h"
 #include "RobotInfo.h"
 #include "BallInfo.h"
 #include "FieldInfo.h"
@@ -83,6 +83,12 @@ class Vision: public TimerModule {
 		 */
 		static void changeInterval(int milSeconds);
 
+		/**
+		 * 	 Este método retorna se um ponto está ou não ocupado por algum robô e/ou bola.
+		 */
+
+		static bool isFree(Target position, double tolerance = 100.0);
+
 	protected:
 
 		/*
@@ -122,6 +128,7 @@ class Vision: public TimerModule {
 		virtual ~Vision();
 		Vision(Vision &);
 		Vision & operator=(const Vision &);
+
 
 };
 

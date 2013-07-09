@@ -12,8 +12,8 @@ RobotList Vision::opponents;
 
 FieldInfo Vision::field;
 BallInfo Vision::ball;
-TargetFixed Vision::opponentGoal(3090.0,0.0);
-TargetFixed Vision::goal(-3090.0,0.0);
+TargetFixed Vision::opponentGoal(3090.0, 0.0);
+TargetFixed Vision::goal(-3090.0, 0.0);
 
 Vision::Vision() {
 	printf("Vision::Vision\n");
@@ -165,4 +165,25 @@ void Vision::onPosExecute() {
 	client.close();
 
 	printf("Vision::onPosExecute - terminated\n");
+}
+
+bool Vision::isFree(Target position, double tolerance) {
+
+	bool free = true;
+
+	int numRobots = Vision::robots.size();
+	for (int i = 0; i < numRobots; i++)
+		if (position.distanceTo(Vision::robots[i]) < tolerance)
+			free = false;
+
+	numRobots = Vision::opponents.size();
+	for (int i = 0; i < numRobots; i++)
+		if (position.distanceTo(Vision::opponents[i]) < tolerance)
+			free = false;
+
+	/*if(position.distanceTo(Vision::ball) < tolerance)
+		free = false;*/
+
+	return free;
+
 }

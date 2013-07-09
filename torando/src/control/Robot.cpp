@@ -27,7 +27,7 @@ void Robot::followTarget(Target & target) {
 
 	destination = target;
 
-	TargetFixed nextPoint = getNextPoint();
+	Target nextPoint = rrt.getNextPoint();
 	float targetTheta = atan2(nextPoint.y() - info.y(), nextPoint.x() - info.x()) - info.orientation();
 	float lookTheta = atan2(lookat.y() - info.y(), lookat.x() - info.x()) - info.orientation();
 	float r = -50.0;

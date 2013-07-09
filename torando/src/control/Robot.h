@@ -16,6 +16,7 @@
 #include <TargetFixed.h>
 #include <RobotInfo.h>
 #include <Path.h>
+#include <Rrt.h>
 
 class Robot: public QObject {
 	Q_OBJECT
@@ -30,7 +31,7 @@ class Robot: public QObject {
 		 */
 
 		Robot(RobotInfo & info) :
-				info(info), path(info), destination(info), lookat(info) {
+				info(info), path(info), destination(info), lookat(info), rrt(info, Vision::ball) {
 			this->info = info;
 			this->lookat = Vision::opponentGoal;
 
@@ -80,6 +81,8 @@ class Robot: public QObject {
 		RobotInfo & info;
 		Path path;
 		Target destination, lookat;
+		Rrt rrt;
+
 		int _id;
 		QThread thread;
 
